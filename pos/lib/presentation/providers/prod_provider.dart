@@ -13,9 +13,9 @@ class ProductProvider extends ChangeNotifier{
   List<Product> get products => _products;
 
 
-  Future<void> fetchProducts() async {
+  Future<List<Product>> fetchProducts() async {
     _products = await fetchProductsUsecase.execute(); 
-    notifyListeners();
+    return _products;
   }
 
   ProductProvider(
@@ -26,11 +26,13 @@ class ProductProvider extends ChangeNotifier{
     Future<void> addProduct(Product product) async {
     await addProductUseCase.execute(product);
     fetchProducts();
+        notifyListeners();
   }
 
   Future<void> deleteProduct(int productId) async {
     await deleteProductUseCase.execute(productId);
     fetchProducts();
+    notifyListeners();
   }
 
 }

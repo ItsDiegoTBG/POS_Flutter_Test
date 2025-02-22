@@ -11,12 +11,23 @@ class AdminHome extends StatefulWidget {
 class AdminHomeState extends State<AdminHome> {
   final _nameController = TextEditingController();
   final _priceController = TextEditingController();
+  List<Product> products = [];
+
 
   @override
   void initState() {
     super.initState();
-    Provider.of<ProductProvider>(context, listen: false).fetchProductsUsecase;
+  _loadProducts();
   }
+
+  Future<void> _loadProducts() async {
+    final productProvider = Provider.of<ProductProvider>(context, listen: false);
+    var productsObtained = await productProvider.fetchProducts(); 
+    setState(() {
+      products =  productsObtained ;
+    });
+  }
+
 
   void _addProduct() {
     final name = _nameController.text;
@@ -36,9 +47,7 @@ class AdminHomeState extends State<AdminHome> {
 
   @override
   Widget build(BuildContext context) {
-    final productProvider = Provider.of<ProductProvider>(context);
-
-    return Scaffold(
+      return Scaffold(
       appBar: AppBar(title: Text('Admin Home')),
       body: Column(
         children: [
@@ -64,12 +73,12 @@ class AdminHomeState extends State<AdminHome> {
             ),
           ),
           Expanded(
-            child: productProvider.products.isEmpty
+            child: products.isEmpty
                 ? Center(child: Text('No products available'))
                 : ListView.builder(
-                    itemCount: productProvider.products.length,
+                    itemCount: products.length,
                     itemBuilder: (context, index) {
-                      final product = productProvider.products[index];
+                      final product = products[index];
                       return ListTile(
                         title: Text(product.name),
                         subtitle: Text('\$${product.price.toStringAsFixed(2)}'),

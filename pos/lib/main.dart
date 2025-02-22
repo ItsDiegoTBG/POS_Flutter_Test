@@ -3,9 +3,14 @@ import 'package:pos/data/repositories/user_repository.dart';
 import 'package:pos/domain/usecases/add_product_usecase.dart';
 import 'package:pos/domain/usecases/delete_product_usecase.dart';
 import 'package:pos/domain/usecases/fetch_products_usecase.dart';
+import 'package:pos/presentation/providers/sales_provider.dart';
 import 'package:provider/provider.dart';
 import 'data/database_helper.dart';
 import 'data/repositories/product_repository.dart';
+import 'data/repositories/sale_repository.dart';
+import 'domain/usecases/add_sale_usecase.dart';
+import 'domain/usecases/delete_sale_usecase.dart';
+import 'domain/usecases/fetch_sales_usecase.dart';
 import 'domain/usecases/login_user_usecase.dart';
 import 'domain/usecases/register_user_usecase.dart';
 import 'presentation/pages/inicial_page.dart';
@@ -27,11 +32,17 @@ Future<void> main() async {
   final addProductUsecase = AddProductUsecase(productRepository);
   final deleteProductUsecase = DeleteProductUsecase(productRepository);
   final fetchProductsUsecase = FetchProductsUsecase(productRepository);
+  final saleRepository = SaleRepository();
+  final addSaleUsecase = AddSaleUsecase(saleRepository);
+  final deleteSaleUsecase = DeleteSaleUsecase(saleRepository);
+  final fetchSalesUsecase = FetchSalesUsecase(saleRepository);
+   
    runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider(loginUsecase,registerUsecase)),
-        ChangeNotifierProvider(create: (context) => ProductProvider(addProductUsecase,deleteProductUsecase,fetchProductsUsecase))
+        ChangeNotifierProvider(create: (context) => ProductProvider(addProductUsecase,deleteProductUsecase,fetchProductsUsecase)),
+        ChangeNotifierProvider(create: (context) => SalesProvider(addSaleUsecase,deleteSaleUsecase,fetchSalesUsecase))
       ],
       child: const MyApp(),
     ),

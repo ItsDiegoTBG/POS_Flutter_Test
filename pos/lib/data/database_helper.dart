@@ -51,11 +51,20 @@ class DatabaseHelper implements DatabaseService {
         await db.execute('''
           CREATE TABLE sales (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            productId INTEGER,
-            quantity INTEGER,
-            totalPrice REAL,
-            date TEXT,
-            FOREIGN KEY (productId) REFERENCES products (id)
+            timestamp TEXT NOT NULL,
+            totalPrice REAL NOT NULL
+          )
+        ''');
+
+        await db.execute('''
+          CREATE TABLE sale_items (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            sale_id INTEGER NOT NULL,
+            product_id INTEGER NOT NULL,
+            name TEXT NOT NULL,
+            quantity INTEGER NOT NULL,
+            price REAL NOT NULL,
+            FOREIGN KEY (sale_id) REFERENCES sales (id) ON DELETE CASCADE
           )
         ''');
   }

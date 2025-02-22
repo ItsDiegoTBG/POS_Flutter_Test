@@ -1,35 +1,70 @@
 class Sale {
   final int? id;
-  final int productId;
-  final int quantity;
+  final DateTime timestamp;
   final double totalPrice;
-  final String date;
+  final List<SaleItem> items;
 
   Sale({
     this.id,
-    required this.productId,
-    required this.quantity,
+    required this.timestamp,
     required this.totalPrice,
-    required this.date,
+    required this.items,
   });
 
   Map<String, dynamic> toMap() {
-    return {
+ return {
       'id': id,
-      'productId': productId,
-      'quantity': quantity,
+      'timestamp': timestamp.toIso8601String(),
       'totalPrice': totalPrice,
-      'date': date,
     };
   }
 
-  factory Sale.fromMap(Map<String, dynamic> map) {
+  factory Sale.fromMap(Map<String, dynamic> map, List<SaleItem> items) {
     return Sale(
       id: map['id'],
-      productId: map['productId'],
-      quantity: map['quantity'],
+      timestamp: DateTime.parse(map['timestamp']),
       totalPrice: map['totalPrice'],
-      date: map['date'],
+      items: items,
+    );
+  }
+}
+
+class SaleItem{
+  final int? id;
+  final int saleId;
+  final int? productId;
+  final String name;
+  final int quantity;
+  final double price;
+
+   SaleItem({
+    this.id,
+    required this.saleId,
+    required this.productId,
+    required this.name,
+    required this.quantity,
+    required this.price,
+  });
+
+  Map<String, dynamic> toMap(int saleId) {
+    return {
+      'id': id,
+      'sale_id': saleId,
+      'product_id': productId,
+      'name': name,
+      'quantity': quantity,
+      'price': price,
+    };
+  }
+
+  factory SaleItem.fromMap(Map<String, dynamic> map) {
+    return SaleItem(
+      id: map['id'],
+      saleId: map['sale_id'],
+      productId: map['product_id'],
+      name: map['name'],
+      quantity: map['quantity'],
+      price: map['price'],
     );
   }
 }
