@@ -8,6 +8,8 @@ import 'user_home.dart';
 
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
@@ -21,12 +23,12 @@ class _LoginPageState extends State<LoginPage> {
   @override
   void initState() {
     super.initState();
-    _loadUsers(); // Load all users when the page is initialized
+    _loadUsers();
   }
 
   Future<void> _loadUsers() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    var users = await authProvider.getAllUsers(); // Assuming you have a method to get all users
+    var users = await authProvider.getAllUsers(); 
     setState(() {
       _allUsers = users;
     });

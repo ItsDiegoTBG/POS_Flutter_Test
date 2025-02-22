@@ -1,7 +1,4 @@
-
-
 import 'package:pos/domain/entities/user.dart';
-
 import '../../data/repositories/user_repository.dart';
 
 class LoginUserUsecase {

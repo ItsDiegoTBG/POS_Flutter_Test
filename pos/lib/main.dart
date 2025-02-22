@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:pos/data/repositories/user_repository.dart';
+import 'package:pos/domain/usecases/add_product_usecase.dart';
+import 'package:pos/domain/usecases/delete_product_usecase.dart';
+import 'package:pos/domain/usecases/fetch_products_usecase.dart';
 import 'package:provider/provider.dart';
 import 'data/database_helper.dart';
+import 'data/repositories/product_repository.dart';
 import 'domain/usecases/login_user_usecase.dart';
 import 'domain/usecases/register_user_usecase.dart';
 import 'presentation/pages/inicial_page.dart';
 import 'presentation/providers/auth_provider.dart';
+import 'presentation/providers/prod_provider.dart';
 
 
 Future<void> main() async {
@@ -14,13 +19,19 @@ Future<void> main() async {
   //commands to set up database
   //await UserRepository().delateUsers(100);
   //await UserRepository().initializeUsers();
+  //await ProductRepository().initializeProducts();
   final authRepository = UserRepository();
   final loginUsecase = LoginUserUsecase(authRepository);
   final registerUsecase = RegisterUserUsecase(authRepository);
+  final productRepository = ProductRepository();
+  final addProductUsecase = AddProductUsecase(productRepository);
+  final deleteProductUsecase = DeleteProductUsecase(productRepository);
+  final fetchProductsUsecase = FetchProductsUsecase(productRepository);
    runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider(loginUsecase,registerUsecase)),
+        ChangeNotifierProvider(create: (context) => ProductProvider(addProductUsecase,deleteProductUsecase,fetchProductsUsecase))
       ],
       child: const MyApp(),
     ),

@@ -4,7 +4,7 @@ import '../../domain/usecases/login_user_usecase.dart';
 import '../../domain/usecases/register_user_usecase.dart';
 import '../../domain/entities/user.dart';
 
-class AuthProvider with ChangeNotifier {
+class AuthProvider extends ChangeNotifier {
   final LoginUserUsecase loginUserUseCase;
   final RegisterUserUsecase registerUserUseCase;
   User? _user;

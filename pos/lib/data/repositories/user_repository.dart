@@ -2,7 +2,7 @@ import '../database_helper.dart';
 import '../../domain/entities/user.dart';
 import 'package:sqflite/sqflite.dart';
 
-class UserRepository  {
+class UserRepository{
 
   Future<int> insertUser(User user) async {
     Database db = await DatabaseHelper.instance.db;
