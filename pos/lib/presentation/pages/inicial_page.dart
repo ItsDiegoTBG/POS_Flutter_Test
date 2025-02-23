@@ -8,13 +8,13 @@ class InitialPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Welcome')),
+      appBar: AppBar(title: Text('Bienvenido'),backgroundColor: Colors.blue,foregroundColor: Colors.white,),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(
-              'Welcome to the App!',
+              'Punto de Compra y Venta!',
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 30),
@@ -22,14 +22,14 @@ class InitialPage extends StatelessWidget {
               onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (_) => LoginPage()));
               },
-              child: Text('Login'),
+              child: Text('Iniciar Sesion'),
             ),
             SizedBox(height: 15),
             ElevatedButton(
               onPressed: () {
               Navigator.push(context, MaterialPageRoute(builder: (_) => RegisterPage()));
               },
-              child: Text('Register'),
+              child: Text('Registrar'),
             ),
           ],
         ),

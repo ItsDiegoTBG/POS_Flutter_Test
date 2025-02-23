@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import '../../domain/entities/product.dart';
 import '../providers/prod_provider.dart';
 import '../providers/sales_provider.dart';
-import 'previous_sale_page.dart';
+import 'previous_sale_user_page.dart';
 
 class UserHome extends StatefulWidget {
 
@@ -13,7 +13,7 @@ class UserHome extends StatefulWidget {
 }
 
 class UserHomeState extends State<UserHome> {
-  Map<Product, int> selectedProducts = {}; // Stores products & their quantitiess
+  Map<Product, int> selectedProducts = {}; 
   List<Product> products = [];
 
   @override
@@ -46,9 +46,9 @@ class UserHomeState extends State<UserHome> {
   }
 
     //First We get the Items from the sale, then turn does into products, and add them to the list with thier quantity.
-    void repeatSale(Sale sale) {
+void repeatSale(Sale sale) {
     setState(() {
-    selectedProducts.clear(); // Clear the selection before repeating
+    selectedProducts.clear(); 
     for (SaleItem si in sale.items) {
       Product? matchingProduct = products.firstWhere(
         (p) => p.name == si.name && p.price == si.price,
@@ -61,92 +61,126 @@ class UserHomeState extends State<UserHome> {
   });
 }
 
-    return Scaffold(
-      appBar: AppBar(title: Text("Sales")),
-      body: Column(
-        children: [
-         ElevatedButton(
-      onPressed: () async {
-        final Sale? selectedSale = await Navigator.push<Sale?>(
-          context,
-          MaterialPageRoute(builder: (context) => PreviousSalePage()),
-        );
-        if (selectedSale != null) {
-         repeatSale(selectedSale);
-        }
-      },
-      child: Text("Ver ventas pasadas"),
-        ) ,
-          Expanded(
-            child: ListView.builder(
-              itemCount: products.length,
-              itemBuilder: (context, index) {
-                Product product = products[index];
+int _selectedIndex = 0;
 
-                return ListTile(
-                  title: Text(product.name),
-                  subtitle: Text( '\$${product.price.toStringAsFixed(2)}\n${product.description}\nSKU: ${product.SKU}',
-                  style: TextStyle(color: Colors.grey[700])),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.remove),
-                        onPressed: () {
-                          setState(() {
-                            if (selectedProducts.containsKey(product) && selectedProducts[product]! > 0) {
-                              selectedProducts[product] = selectedProducts[product]! - 1;
-                              if (selectedProducts[product] == 0) {
-                                selectedProducts.remove(product);
-                              }
-                            }
-                          });
-                        },
-                      ),
-                      Text(selectedProducts[product]?.toString() ?? "0"),
-                      IconButton(
-                        icon: Icon(Icons.add),
-                        onPressed: () {
-                          setState(() {
-                            selectedProducts[product] = (selectedProducts[product] ?? 0) + 1;
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-          Divider(),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              children: [
-                Text(
-                  "Total: \$${totalPrice.toStringAsFixed(2)}",
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: selectedProducts.isNotEmpty
-                      ? () {
-                          addSale();
-                          setState(() {
-                            selectedProducts.clear();
-                          });
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Venta confirmada")),
-                          );
-                        }
-                      : null,
-                  child: Text("Confirmar Venta"),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+Future<void> _onItemTapped(int index) async {
+  setState(() {
+    _selectedIndex = index;
+  });
+
+  if (index == 1) {
+    final Sale? selectedSale = await Navigator.push<Sale?>(
+      context,
+      MaterialPageRoute(builder: (context) => PreviousSaleUserPage()),
     );
+    if (selectedSale != null) {
+      repeatSale(selectedSale);
+    }
+  }
+}
+
+return Scaffold(
+    appBar: AppBar(title: Text("Ventas"),backgroundColor: Colors.blue,foregroundColor: Colors.white,),
+    body: Column(
+      children: [
+        ElevatedButton(
+  onPressed: () async {
+    final Sale? selectedSale = await Navigator.push<Sale?>(
+      context,
+      MaterialPageRoute(builder: (context) => PreviousSaleUserPage()),
+    );
+    if (selectedSale != null) {
+      repeatSale(selectedSale);
+    }
+  },
+  child: Text("Cargar una Venta Pasada"),
+),
+        Expanded(
+          child: ListView.builder(
+            itemCount: products.length,
+            itemBuilder: (context, index) {
+              Product product = products[index];
+
+              return ListTile(
+                title: Text(product.name),
+                subtitle: Text(
+                  '\$${product.price.toStringAsFixed(2)}\n${product.description}\nSKU: ${product.SKU}',
+                  style: TextStyle(color: Colors.grey[700]),
+                ),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      icon: Icon(Icons.remove),
+                      onPressed: () {
+                        setState(() {
+                          if (selectedProducts.containsKey(product) && selectedProducts[product]! > 0) {
+                            selectedProducts[product] = selectedProducts[product]! - 1;
+                            if (selectedProducts[product] == 0) {
+                              selectedProducts.remove(product);
+                            }
+                          }
+                        });
+                      },
+                    ),
+                    Text(selectedProducts[product]?.toString() ?? "0"),
+                    IconButton(
+                      icon: Icon(Icons.add),
+                      onPressed: () {
+                        setState(() {
+                          selectedProducts[product] = (selectedProducts[product] ?? 0) + 1;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+              );
+            },
+          ),
+        ),
+        Divider(),
+        Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Text(
+                "Total: \$${totalPrice.toStringAsFixed(2)}",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: selectedProducts.isNotEmpty
+                    ? () {
+                        addSale();
+                        setState(() {
+                          selectedProducts.clear();
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(content: Text("Venta confirmada")),
+                        );
+                      }
+                    : null,
+                child: Text("Confirmar Venta"),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+    bottomNavigationBar: BottomNavigationBar(
+      items: const [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.shopping_cart),
+          label: 'Ventas',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.history),
+          label: 'Historial de ventas',
+        ),
+      ],
+      currentIndex: _selectedIndex,
+      onTap: _onItemTapped,
+    ),
+  );
   }
 }

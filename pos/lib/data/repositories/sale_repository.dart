@@ -88,14 +88,12 @@ Future<String> generateCSV() async {
       totalPrice += total;
     }
 
-    // Add row to CSV
+
     csvData.add([saleId.toString(), timestamp, productDetails.join(', '), totalPrice.toStringAsFixed(2)]);
   }
 
-  // Convert to CSV format
   String csvString = const ListToCsvConverter().convert(csvData);
 
-  // Save file to storage
   final directory = await getExternalStorageDirectory();
   if (directory == null) {
     throw Exception("Failed to get external storage directory.");
@@ -105,7 +103,7 @@ Future<String> generateCSV() async {
   final File file = File(path);
   await file.writeAsString(csvString);
 
-  return path; // Return the file path
+  return path; 
 }
 
 }

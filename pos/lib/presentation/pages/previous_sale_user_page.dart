@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:pos/presentation/pages/user_home.dart';
 import 'package:provider/provider.dart';
 import '../../domain/entities/sale.dart';
 import '../providers/sales_provider.dart';
 
-class PreviousSalePage extends StatefulWidget{
+class PreviousSaleUserPage extends StatefulWidget{
   @override
   PreviousSalePageState createState() => PreviousSalePageState();
 }
 
-class PreviousSalePageState extends State<PreviousSalePage>{
+class PreviousSalePageState extends State<PreviousSaleUserPage>{
   List<Sale> previousSales = []; 
 
   @override
@@ -30,7 +31,7 @@ void _exportCSV() async {
   String filePath = await saleProvider.generateCSV();
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      content: Text("CSV file saved at: $filePath"),
+      content: Text("Archivo CSV guardado en: $filePath"),
       action: SnackBarAction(
         label: "Open",
         onPressed: () {
@@ -46,20 +47,20 @@ Widget build(BuildContext context) {
   final salesProvider = Provider.of<SalesProvider>(context, listen: false);
 
   return Scaffold(
-    appBar: AppBar(title: Text("Previous Sales")),
+    appBar: AppBar(title: Text("Historial de Ventas"),backgroundColor: Colors.blue,foregroundColor: Colors.white,),
     body: Column(
       children: [
         Expanded(
           child: previousSales.isEmpty
-              ? Center(child: Text("No previous sales found"))
+              ? Center(child: Text("Ninguna venta encontrada"))
               : ListView.builder(
                   itemCount: previousSales.length,
                   itemBuilder: (context, index) {
                     final sale = previousSales[index];
 
                     return ListTile(
-                      title: Text("Sale #${sale.id} - \$${sale.totalPrice.toStringAsFixed(2)}"),
-                      subtitle: Text("Date: ${sale.timestamp}"),
+                      title: Text("Venta #${sale.id} - \$${sale.totalPrice.toStringAsFixed(2)}"),
+                      subtitle: Text("Dia: ${sale.timestamp}"),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -69,16 +70,16 @@ Widget build(BuildContext context) {
                               bool confirmDelete = await showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
-                                  title: Text("Delete Sale"),
-                                  content: Text("Are you sure you want to delete this sale?"),
+                                  title: Text("Borrar Venta"),
+                                  content: Text("Vas a borrar esta venta, estas seguro?"),
                                   actions: [
                                     TextButton(
                                       onPressed: () => Navigator.pop(context, false),
-                                      child: Text("Cancel"),
+                                      child: Text("Cancelar"),
                                     ),
                                     TextButton(
                                       onPressed: () => Navigator.pop(context, true),
-                                      child: Text("Delete"),
+                                      child: Text("Borrar"),
                                     ),
                                   ],
                                 ),
@@ -90,7 +91,7 @@ Widget build(BuildContext context) {
                                   previousSales.removeAt(index);
                                 });
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text("Sale deleted successfully")),
+                                  SnackBar(content: Text("Venta borrada exitosamente")),
                                 );
                               }
                             },
@@ -98,7 +99,7 @@ Widget build(BuildContext context) {
                         ],
                       ),
                       onTap: () {
-                        Navigator.pop(context, sale);
+                       Navigator.pop(context, sale);
                       },
                     );
                   },
@@ -111,8 +112,30 @@ Widget build(BuildContext context) {
             child: Text("Exportar ventas a CSV"),
           ),
         ),
+        
       ],
     ),
+bottomNavigationBar: BottomNavigationBar(
+        currentIndex: 1, 
+        onTap: (index) {
+          if (index == 0) {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => UserHome()),
+            );
+          }
+        },
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home),
+            label: "Productos",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.history),
+            label: "Historial de ventas",
+          ),
+        ],
+      ),
   );
 }
 

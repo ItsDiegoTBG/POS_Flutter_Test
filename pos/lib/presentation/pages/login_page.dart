@@ -54,7 +54,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Login")),
+      appBar: AppBar(title: Text("Iniciar Sesion"),backgroundColor: Colors.blue,foregroundColor: Colors.white,),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -62,30 +62,30 @@ class _LoginPageState extends State<LoginPage> {
           children: [
             TextField(
               controller: _emailController,
-              decoration: InputDecoration(labelText: "User"),
+              decoration: InputDecoration(labelText: "Usuario"),
               keyboardType: TextInputType.emailAddress,
             ),
             SizedBox(height: 10),
             TextField(
               controller: _passwordController,
-              decoration: InputDecoration(labelText: "Password"),
+              decoration: InputDecoration(labelText: "Contraseña"),
               obscureText: true,
             ),
             SizedBox(height: 10),
             SizedBox(height: 20),
                  ElevatedButton(
                     onPressed: _login,
-                    child: Text("Login"),
+                    child: Text("Iniciar Sesion"),
                   ),
             TextButton(
               onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => RegisterPage())),
-              child: Text("Don't have an account? Register"),
+              child: Text("No tienes cuenta? Registrate!"),
             ),
-            SizedBox(height: 20),
-            if (_allUsers.isNotEmpty) ...[
-              Text('Users in the database for debugging:'),
-              for (var user in _allUsers) Text('${user.username} - ${user.userType}'),
-            ]
+           // SizedBox(height: 20),
+           // if (_allUsers.isNotEmpty) ...[
+           //   Text('Usuario en la Base de datos, para Debug:'),
+           //   for (var user in _allUsers) Text('${user.username} - ${user.userType}'),
+           // ]
           ],
         ),
       ),

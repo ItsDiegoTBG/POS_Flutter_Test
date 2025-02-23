@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../../domain/entities/sale.dart';
 import '../providers/prod_provider.dart';
 import '../../domain/entities/product.dart';
-import 'previous_sale_page.dart';
+import 'previous_sale_admin_page.dart';
 
 class AdminHome extends StatefulWidget {
   @override
@@ -74,21 +73,27 @@ class AdminHomeState extends State<AdminHome> {
     Provider.of<ProductProvider>(context, listen: false).deleteProduct(id);
   }
 
+int _selectedIndex = 0;
+
+void _onItemTapped(int index) {
+  setState(() {
+    _selectedIndex = index;
+  });
+
+  if (index == 1) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => PreviousSaleAdminPage()),
+    );
+  }
+}
 
   @override
   Widget build(BuildContext context) {
       return Scaffold(
-      appBar: AppBar(title: Text('Admin Home')),
+      appBar: AppBar(title: Text('Productos'),backgroundColor: Colors.blue,foregroundColor: Colors.white,),
       body: Column(
-        children: [ElevatedButton(
-      onPressed: () async {
-          Navigator.push<Sale?>(
-          context,
-          MaterialPageRoute(builder: (context) => PreviousSalePage()),
-        );
-      },
-      child: Text("Ver ventas pasadas"),
-        ),
+        children: [
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -140,6 +145,20 @@ class AdminHomeState extends State<AdminHome> {
           ),
         ],
       ),
+      bottomNavigationBar: BottomNavigationBar(
+      items: const [
+        BottomNavigationBarItem(
+          icon: Icon(Icons.shopping_cart),
+          label: 'Productos',
+        ),
+        BottomNavigationBarItem(
+          icon: Icon(Icons.history),
+          label: 'Historial de ventas',
+        ),
+      ],
+      currentIndex: _selectedIndex,
+      onTap: _onItemTapped,
+    ),
     );
   }
 }
