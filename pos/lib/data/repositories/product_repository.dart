@@ -8,6 +8,7 @@ Future<int> insertProduct(Product product) async {
     return await db.insert('products', product.toMap());
   }
 
+//For Debugging
   Future<void> initializeProducts() async {
     List<Product> productToAdd = [
       Product(name: 'Leche', price: 1.0, description: "1 Litro Leche Toni de Carton ",SKU: "LTONI1"),

@@ -8,7 +8,8 @@ class UserRepository{
     Database db = await DatabaseHelper.instance.db;
     return await db.insert('users', user.toMap());
   }
-
+  
+//For Debugging 
   Future<void> initializeUsers() async {
     List<User> usersToAdd = [
       User(username: 'John', password: '123',userType: UserType.admin),

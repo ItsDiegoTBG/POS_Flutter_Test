@@ -37,8 +37,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> _login() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final userExist = await authProvider.login(_emailController.text, _passwordController.text);
-    //Try to change this validation later so its in the Login User use case so You can do it 
-    // from the Auth_Provider and not do something dangerous.
+
     if ( userExist == true) {
       final isAdmin = await authProvider.isAdmin(_emailController.text, _passwordController.text);
       if (isAdmin) {

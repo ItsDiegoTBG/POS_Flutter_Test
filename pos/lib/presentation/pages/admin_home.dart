@@ -134,7 +134,7 @@ void _onItemTapped(int index) {
                       return ListTile(
                         title: Text(product.name),
                         subtitle: Text( '\$${product.price.toStringAsFixed(2)}\n${product.description}\nSKU: ${product.SKU}',
-                        style: TextStyle(color: Colors.grey[700])), // Optional styling
+                        style: TextStyle(color: Colors.grey[700])), 
                         trailing: IconButton(
                           icon: Icon(Icons.delete, color: Colors.red),
                           onPressed: () => _deleteProduct(product.id!),
