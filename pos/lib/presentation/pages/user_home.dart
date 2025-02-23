@@ -30,21 +30,6 @@ class UserHomeState extends State<UserHome> {
     });
   }
 
-void _exportCSV() async {
-  final saleProvider = Provider.of<SalesProvider>(context, listen: false); 
-  String filePath = await saleProvider.generateCSV();
-  ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
-      content: Text("CSV file saved at: $filePath"),
-      action: SnackBarAction(
-        label: "Open",
-        onPressed: () {
-    
-        },
-      ),
-    ),
-  );
-}
 
 
   @override
@@ -157,10 +142,6 @@ void _exportCSV() async {
                       : null,
                   child: Text("Confirmar Venta"),
                 ),
-        ElevatedButton(
-          onPressed: _exportCSV,
-          child: Text("Exportar ventas a CSV"),
-        ),
               ],
             ),
           ),

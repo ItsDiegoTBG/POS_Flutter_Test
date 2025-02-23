@@ -32,8 +32,6 @@ class AdminHomeState extends State<AdminHome> {
     });
   }
 
-  // TODO Puede ver un listado de las ventas pasadas. Entonces copia y pega el codigo de userhome. Listo
-  // TODO En caso de que se intente registrar un SKU ya existente, se deberá mostrar un mensaje de error. 
 
   void _addProduct() {
     final name = _nameController.text;
@@ -43,7 +41,16 @@ class AdminHomeState extends State<AdminHome> {
 
     if (name.isNotEmpty && price > 0) {
       final product = Product(name: name, price: price, description: description, SKU: SKU);
-      Provider.of<ProductProvider>(context, listen: false).addProduct(product);
+      if(!checkDuplicateProducts(product)){
+        Provider.of<ProductProvider>(context, listen: false).addProduct(product);
+      }
+      else{
+         ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+          content: Text("Ya existe un Producto con ese SKU"),
+      ),
+    );
+      }
       _nameController.clear();
       _priceController.clear();
       _SKUController.clear();
@@ -51,6 +58,17 @@ class AdminHomeState extends State<AdminHome> {
     }
     _loadProducts();
   }
+
+  bool checkDuplicateProducts(Product product){
+    for (Product proList in products){
+      if (proList.SKU == product.SKU){
+        return true;
+      }
+    }
+    return false;
+  }
+
+
 
   void _deleteProduct(int id) {
     Provider.of<ProductProvider>(context, listen: false).deleteProduct(id);
