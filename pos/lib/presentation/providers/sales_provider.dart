@@ -39,7 +39,7 @@ class SalesProvider with ChangeNotifier {
   List<SaleItem> createSaleItems(Map<Product, int> info){
     List<SaleItem> list = [];
     info.forEach((product, amount) => list.add(
-      SaleItem(saleId: 0, productId: product.id, name: product.name, quantity: amount, price: product.price)
+      SaleItem(saleId: 0, productId: product.id, name: product.name, quantity: amount, price: product.price,description: product.description,SKU: product.SKU)
     )
     );
 

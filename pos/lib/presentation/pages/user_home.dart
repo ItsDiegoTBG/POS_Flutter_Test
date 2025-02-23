@@ -39,7 +39,7 @@ void _exportCSV() async {
       action: SnackBarAction(
         label: "Open",
         onPressed: () {
-          // Optionally, open the file using a file manager
+    
         },
       ),
     ),
@@ -57,6 +57,7 @@ void _exportCSV() async {
   void addSale()async{
   final saleProvider = Provider.of<SalesProvider>(context, listen: false);
   saleProvider.saveSale(selectedProducts,totalPrice);
+
   }
 
     //First We get the Items from the sale, then turn does into products, and add them to the list with thier quantity.
@@ -66,7 +67,6 @@ void _exportCSV() async {
     for (SaleItem si in sale.items) {
       Product? matchingProduct = products.firstWhere(
         (p) => p.name == si.name && p.price == si.price,
-        orElse: () => Product(id: -1, name: si.name, price: si.price),
       );
       
       if (matchingProduct.id != -1) {
@@ -86,12 +86,11 @@ void _exportCSV() async {
           context,
           MaterialPageRoute(builder: (context) => PreviousSalePage()),
         );
-
         if (selectedSale != null) {
          repeatSale(selectedSale);
         }
       },
-      child: Text("View Previous Sales"),
+      child: Text("Ver ventas pasadas"),
         ) ,
           Expanded(
             child: ListView.builder(
@@ -101,7 +100,8 @@ void _exportCSV() async {
 
                 return ListTile(
                   title: Text(product.name),
-                  subtitle: Text("\$${product.price.toStringAsFixed(2)}"),
+                  subtitle: Text( '\$${product.price.toStringAsFixed(2)}\n${product.description}\nSKU: ${product.SKU}',
+                  style: TextStyle(color: Colors.grey[700])),
                   trailing: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -151,15 +151,15 @@ void _exportCSV() async {
                             selectedProducts.clear();
                           });
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(content: Text("Sale Confirmed!")),
+                            SnackBar(content: Text("Venta confirmada")),
                           );
                         }
                       : null,
-                  child: Text("Confirm Sale"),
+                  child: Text("Confirmar Venta"),
                 ),
         ElevatedButton(
           onPressed: _exportCSV,
-          child: Text("Export Sales to CSV"),
+          child: Text("Exportar ventas a CSV"),
         ),
               ],
             ),

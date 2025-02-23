@@ -23,6 +23,8 @@ class SaleRepository {
       'name': item.name,
       'quantity': item.quantity,
       'price': item.price,
+      'description':item.description,
+      'SKU': item.SKU
     });
   }}
 
@@ -39,7 +41,7 @@ class SaleRepository {
       where: 'sale_id = ?',
       whereArgs: [saleId],
     );
-
+    // THIS LINE
     List<SaleItem> saleItems = itemsData.map((item) => SaleItem.fromMap(item)).toList();
     salesList.add(Sale.fromMap(saleMap, saleItems));
   }

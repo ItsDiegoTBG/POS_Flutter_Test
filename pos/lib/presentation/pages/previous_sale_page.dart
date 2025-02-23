@@ -14,7 +14,7 @@ class PreviousSalePageState extends State<PreviousSalePage>{
   @override
   void initState() {
     super.initState();
- _loadSales();
+    _loadSales();
   }
 
   Future<void> _loadSales() async {

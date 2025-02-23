@@ -10,11 +10,11 @@ Future<int> insertProduct(Product product) async {
 
   Future<void> initializeProducts() async {
     List<Product> productToAdd = [
-      Product(name: 'Leche', price: 0.50),
-      Product(name: 'Arroz', price: 1.00),
-      Product(name: 'Azucar', price: 1.00),
-      Product(name: 'Carne', price: 2.00),
-      Product(name: 'Chorizo', price: 1.50),
+      Product(name: 'Leche', price: 1.0, description: "1 Litro Leche Toni de Carton ",SKU: "LTONI1"),
+      Product(name: 'Arroz', price: 11.00, description: "1 Arroba Arroz OSO",SKU: "AROSO1A"),
+      Product(name: 'Azucar', price: 1.00, description: "1 KG Azucar San Carlos",SKU: "AZSC1K"),
+      Product(name: 'Carne', price: 3.00, description: "1 KG de Carne de Res",SKU: "MOOMOO1KG"),
+      Product(name: 'Chorizo', price: 1.50, description: "200 g Chorizo Paiza Juris",SKU: "CHORIZO1"),
     ];
 
     for (Product product in productToAdd) {

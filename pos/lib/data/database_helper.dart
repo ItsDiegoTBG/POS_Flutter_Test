@@ -46,8 +46,10 @@ class DatabaseHelper implements DatabaseService {
         await db.execute('''
           CREATE TABLE products (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT,
-            price REAL
+            name TEXT NOT NULL,
+            price REAL NOT NULL,
+            description TEXT NOT NULL,
+            SKU TEXT NOT NULL
           )
         ''');
 
@@ -67,6 +69,8 @@ class DatabaseHelper implements DatabaseService {
             name TEXT NOT NULL,
             quantity INTEGER NOT NULL,
             price REAL NOT NULL,
+            description TEXT NOT NULL,
+            SKU TEXT NOT NULL,
             FOREIGN KEY (sale_id) REFERENCES sales (id) ON DELETE CASCADE
           )
         ''');

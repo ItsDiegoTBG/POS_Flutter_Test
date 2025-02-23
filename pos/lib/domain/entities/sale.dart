@@ -36,6 +36,8 @@ class SaleItem{
   final String name;
   final int quantity;
   final double price;
+  final String description;
+  final String SKU;
 
    SaleItem({
     this.id,
@@ -44,6 +46,8 @@ class SaleItem{
     required this.name,
     required this.quantity,
     required this.price,
+    required this.description, 
+    required this.SKU
   });
 
   Map<String, dynamic> toMap(int saleId) {
@@ -54,6 +58,8 @@ class SaleItem{
       'name': name,
       'quantity': quantity,
       'price': price,
+      'description':description,
+      'SKU':SKU
     };
   }
 
@@ -65,6 +71,8 @@ class SaleItem{
       name: map['name'],
       quantity: map['quantity'],
       price: map['price'],
+      description: map['description'], //this line
+      SKU: map['SKU']
     );
   }
 }
