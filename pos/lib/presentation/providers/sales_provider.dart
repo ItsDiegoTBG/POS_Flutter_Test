@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pos/domain/usecases/add_sale_usecase.dart';
 import 'package:pos/domain/usecases/delete_sale_usecase.dart';
 import 'package:pos/domain/usecases/fetch_sales_usecase.dart';
+import 'package:pos/domain/usecases/generate_csv.dart';
 
 import '../../domain/entities/product.dart';
 import '../../domain/entities/sale.dart';
@@ -11,11 +12,13 @@ class SalesProvider with ChangeNotifier {
   final AddSaleUsecase addSaleUsecase;
   final DeleteSaleUsecase deleteSaleUsecase;
   final FetchSalesUsecase fetchSalesUsecase;
+  final GenerateCsv generateCsv;
 
   SalesProvider(
     this.addSaleUsecase,
     this.deleteSaleUsecase,
-    this.fetchSalesUsecase
+    this.fetchSalesUsecase,
+    this.generateCsv
   );
 
   List<Sale> _sales = [];
@@ -52,6 +55,10 @@ class SalesProvider with ChangeNotifier {
     await deleteSaleUsecase.execute(saleId!);
     fetchSales();
     notifyListeners();
+  }
+
+  Future<String> generateCSV() async {
+   return await generateCsv.execute();
   }
 
 }

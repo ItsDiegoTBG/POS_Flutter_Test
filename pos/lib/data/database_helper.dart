@@ -1,6 +1,9 @@
+
+
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 import 'database_service.dart';
+
 
 class DatabaseHelper implements DatabaseService {
   static Database? database;
@@ -83,7 +86,7 @@ class DatabaseHelper implements DatabaseService {
     return await database!.query(table);
   }
 
-  Future<List<Map<String, dynamic>>> query(String table, {required String where, required List<String> whereArgs}) async {
+  Future<List<Map<String, dynamic>>> query(String table, {required String where, required List<dynamic> whereArgs}) async {
     return await database!.query(table);
   }
   @override
@@ -100,4 +103,5 @@ class DatabaseHelper implements DatabaseService {
   Future<void> close() async {
     await database?.close();
   }
+
 }

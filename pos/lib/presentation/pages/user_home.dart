@@ -30,6 +30,21 @@ class UserHomeState extends State<UserHome> {
     });
   }
 
+void _exportCSV() async {
+  final saleProvider = Provider.of<SalesProvider>(context, listen: false); 
+  String filePath = await saleProvider.generateCSV();
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text("CSV file saved at: $filePath"),
+      action: SnackBarAction(
+        label: "Open",
+        onPressed: () {
+          // Optionally, open the file using a file manager
+        },
+      ),
+    ),
+  );
+}
 
 
   @override
@@ -142,6 +157,10 @@ class UserHomeState extends State<UserHome> {
                       : null,
                   child: Text("Confirm Sale"),
                 ),
+        ElevatedButton(
+          onPressed: _exportCSV,
+          child: Text("Export Sales to CSV"),
+        ),
               ],
             ),
           ),

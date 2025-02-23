@@ -3,6 +3,8 @@ class Product {
   final String name;
   final double price;
 
+  //producto a ingresar (nombre, descripción, precio, SKU). CAMBIAR
+
   Product({this.id, required this.name, required this.price});
 
   Map<String, dynamic> toMap() {

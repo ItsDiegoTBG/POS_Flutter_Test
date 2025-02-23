@@ -3,6 +3,7 @@ import 'package:pos/data/repositories/user_repository.dart';
 import 'package:pos/domain/usecases/add_product_usecase.dart';
 import 'package:pos/domain/usecases/delete_product_usecase.dart';
 import 'package:pos/domain/usecases/fetch_products_usecase.dart';
+import 'package:pos/domain/usecases/generate_csv.dart';
 import 'package:pos/presentation/providers/sales_provider.dart';
 import 'package:provider/provider.dart';
 import 'data/database_helper.dart';
@@ -21,7 +22,7 @@ import 'presentation/providers/prod_provider.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DatabaseHelper.instance.init();
-  //commands to set up database
+  //commands to set up database Please dont uncomment unless new test setup
   //await UserRepository().delateUsers(100);
   //await UserRepository().initializeUsers();
   //await ProductRepository().initializeProducts();
@@ -36,13 +37,14 @@ Future<void> main() async {
   final addSaleUsecase = AddSaleUsecase(saleRepository);
   final deleteSaleUsecase = DeleteSaleUsecase(saleRepository);
   final fetchSalesUsecase = FetchSalesUsecase(saleRepository);
+  final generateCsv = GenerateCsv(saleRepository);
    
    runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => AuthProvider(loginUsecase,registerUsecase)),
         ChangeNotifierProvider(create: (context) => ProductProvider(addProductUsecase,deleteProductUsecase,fetchProductsUsecase)),
-        ChangeNotifierProvider(create: (context) => SalesProvider(addSaleUsecase,deleteSaleUsecase,fetchSalesUsecase))
+        ChangeNotifierProvider(create: (context) => SalesProvider(addSaleUsecase,deleteSaleUsecase,fetchSalesUsecase,generateCsv))
       ],
       child: const MyApp(),
     ),
